@@ -1,7 +1,9 @@
 import cv2
 from pyspectra.core import core
 from pyspectra.analysis import analysis
+from pyspectra.core.encryption import xor_cipher
 from pyspectra.exception import pyspectra_exception
+
 
 def main():
     while True:
@@ -13,10 +15,13 @@ def main():
             message = input("Enter the message: ")
             output_name = input("Enter the name of output image: ")
 
+            # Encrypt message before hiding
+            ct = xor_cipher(message, key);
+
             pyspectra = core.PySpectra()
             try:
                 cover = cv2.imread("./assets/" + image_name, 0)
-                new_image = pyspectra.embedding(image=cover, message=message, key=key, scalar=scalar)
+                new_image = pyspectra.embedding(image=cover, message=ct, key=key, scalar=scalar)
                 cv2.imwrite("./outputs/" + output_name, new_image)
             except pyspectra_exception.PySpectraException as pe:
                 print("PySpectra Exception:", pe)
@@ -31,7 +36,11 @@ def main():
             try:
                 stego = cv2.imread("./outputs/" + stego_name, 0)
                 extracted_message = pyspectra.extract(image=stego, key=key)
-                print("Message:", extracted_message)
+
+                # Decrypt message after extracting
+                pt = xor_cipher(extracted_message, key)
+
+                print("Message:", pt)
             except pyspectra_exception.PySpectraException as pe:
                 print("PySpectra Exception:", pe)
             except Exception as e:
@@ -46,7 +55,7 @@ def main():
                 image2 = cv2.imread(image2_path, 0)
 
                 analyze = analysis.Analysis()
-                
+
                 psnr = analyze.psnrAnalysis(image1, image2)
                 ssim = analyze.ssimAnalysis(image1, image2)
 
@@ -62,6 +71,7 @@ def main():
                 print("Error:", e)
         else:
             print("Invalid mode. Please enter 'embed', 'extract', or 'analyze'.")
+
 
 if __name__ == "__main__":
     main()
