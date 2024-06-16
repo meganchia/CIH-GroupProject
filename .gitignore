@@ -1,1 +1,5 @@
-__pycache__
+.DS_Store
+attack/StegExpose/.idea/.gitignore
+attack/StegExpose/.idea/*
+
+attack/StegExpose/StegExpose analysis.ods

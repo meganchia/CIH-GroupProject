@@ -1,0 +1,57 @@
+#!/bin/bash
+G="\033[1;34m[*] \033[0m"
+S="\033[1;32m[+] \033[0m"
+# Author TH3W1LDN16HT
+
+
+url="https://github.com/W1LDN16H7/StegoCracker.git"
+clear
+
+echo
+
+while [[ $(sudo -n id -u 2>&1) != 0 ]]; do
+    {
+        sudo -v -p "$(echo -e -n "$P")Password for $(whoami): "
+    } &> /dev/null
+done
+
+echo -e "$G""Updating Stego...."
+
+if [[ -f /usr/bin/stego ]]; then
+  update=true
+
+else
+  # shellcheck disable=SC2034
+  update=false
+fi
+
+{
+
+
+
+
+
+  if [[ $update ]]; then
+    sudo rm -rf /usr/bin/stego
+    sudo mkdir $HOME/Tools
+    sudo git clone $url $HOME/Tools/
+    cd $HOME/Tools/
+    chmod -R 777 Stego*
+    # shellcheck disable=SC2164
+    cd Stego*
+    chmod +x install.sh
+    ./install.sh
+  fi
+
+
+} &> /dev/null
+
+
+if [[ ! -f /usr/bin/stego ]]; then
+  echo -e "$E""Installation failed!"
+  exit 1
+
+fi
+
+echo -e "$S""Successfully updated!"
+exit 0
