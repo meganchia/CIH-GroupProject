@@ -1,8 +1,8 @@
 import cv2
-from pyspectra.core import core
-from pyspectra.analysis import analysis
-from pyspectra.core.encryption import xor_cipher
-from pyspectra.exception import pyspectra_exception
+from defense.pyspectra.core import core
+from defense.pyspectra.analysis import analysis
+from defense.pyspectra.core.encryption import xor_cipher
+from defense.pyspectra.exception import pyspectra_exception
 
 
 def main():
@@ -16,7 +16,7 @@ def main():
             output_name = input("Enter the name of output image: ")
 
             # Encrypt message before hiding
-            ct = xor_cipher(message, key);
+            ct = xor_cipher(message, key)
 
             pyspectra = core.PySpectra()
             try:
@@ -38,7 +38,8 @@ def main():
                 extracted_message = pyspectra.extract(image=stego, key=key)
 
                 # Decrypt message after extracting
-                pt = xor_cipher(extracted_message, key)
+                # pt = xor_cipher(extracted_message, key)
+                pt = extracted_message
 
                 print("Message:", pt)
             except pyspectra_exception.PySpectraException as pe:

@@ -1,5 +1,5 @@
 class PySpectraException(BaseException):
-    """Custom exception for a pyspectra steganography."""
+    """Custom exception for a CIH steganography."""
 
     def __init__(self, message: str):
         self.message = message

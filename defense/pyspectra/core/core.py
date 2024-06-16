@@ -1,5 +1,6 @@
 import numpy as np
-from pyspectra.exception import pyspectra_exception
+from defense.pyspectra.exception import pyspectra_exception
+
 
 class PySpectra(object):
     def __init__(self):
